@@ -93,7 +93,7 @@ var setMarkers = function (map, items) {
     if (item.onClick) {
       marker.on('click', item.onClick);
     } else {
-      marker.bindPopup('<div style="width: 196px;"><img src="./images/popupcontent.png"><a href="#" onclick="javascript: console.log(this.setAttribute(\'class\', \'is-confirmed\')); return false;"><img class="transferbtn" src="./images/transferbtn.png" /><img class="confirmed" src="./images/confirmed.png" /></a></div>');
+      marker.bindPopup('<div style="width: 196px;"><img src="./images/popupcontent.png"><a href="#" onclick="javascript: this.setAttribute(\'class\', \'is-confirmed\'); var sts = document.getElementById(\'dynamic-status\'); sts.innerHTML = \'0\'; sts.setAttribute(\'class\', \'status\'); return false;"><img class="transferbtn" src="./images/transferbtn.png" /><img class="confirmed" src="./images/confirmed.png" /></a></div>');
     }
     currentMarkers.push(marker);
     marker.addTo(map);
@@ -176,7 +176,7 @@ var berlinStatus = 'green';
 setTimeout(function () {
   berlinStatus = 'red';
   setFactoryMarkers();
-}, 2000);
+}, 15000);
 
 setFactoryMarkers();
 
@@ -234,9 +234,9 @@ drawLine = function (city1, city2, color) {
       map.removeLayer(line);
     });
     lines = []
-    drawLine(currentItem, cities.hamburg, '#070');
-    drawLine(currentItem, cities.munich, '#070');
-    drawLine(currentItem, cities.frankfurt, '#070');
+    drawLine(currentItem, cities.hamburg, '#0A495F');
+    drawLine(currentItem, cities.munich, '#0A495F');
+    drawLine(currentItem, cities.frankfurt, '#0A495F');
   });
 
 });

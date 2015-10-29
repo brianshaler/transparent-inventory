@@ -22,6 +22,25 @@ body {
   font-size: 18px;
 }
 
+.menu {
+  background-color: #0A495F;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.8em;
+  z-index: 2000;
+}
+.menu img {
+  margin: 0.8em;
+  position: absolute;
+}
+.menu h3 {
+  margin: 0.5em;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+}
 .gear-img {
   max-width: 200px;
   margin-top: 2em;
@@ -124,6 +143,9 @@ p {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
 }
+.overlay h2 {
+  text-align: center;
+}
 .card {
   background-color: #fff;
   border-radius: 1.5em;
@@ -146,9 +168,9 @@ p {
 .card .status {
   font-family: 'Montserrat';
   display: inline-block;
-  border: solid 3px #000;
+  border: solid 3px #0A495F;
   font-size: 2em;
-  color: #000;
+  color: #0A495F;
   padding: 0.2em 0.2em;
   min-width: 1.5em;
 }
@@ -279,6 +301,7 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
 }
 
 .next-btn {
@@ -307,22 +330,22 @@ p {
 <div id='overlay' class='overlay' style='display: none;'>
   <div id='settings' class='settings container'>
     <div class='content'>
-      <h1>SUPPLIERS</h1>
+      <h2>PART SHORTAGE</h2>
       <div class='card'>
-        <img src='./images/gear1.png' class='gear-img' />
+        <img src='./images/gear3.png' class='gear-img' />
         <h2>GEAR</h2>
         <p>Special Gear</p>
-        <div class='status status-problem'>
+        <div id='dynamic-status' class='status status-problem'>
           -2
         </div>
       </div>
       <div class='options'>
         <p>
-          <input type='radio' />
+          <img src='./images/blue-toggle.png' />
           BEST FIT
         </p>
         <p>
-          <input type='radio' />
+          <img src='./images/white-toggle.png' />
           SHOW IMPACT
         </p>
       </div>
@@ -332,7 +355,7 @@ p {
 <div id='fullscreen' class='fullscreen' style='display: none'>
     <div id='card1' class='card floating-card'>
       <img src='./images/disrupt.png' style='position:absolute; z-index: 100; margin: -4em 0 0 -2.2em;' />
-      <img src='./images/gear1.png' class='gear-img' />
+      <img src='./images/gear3.png' class='gear-img' />
       <h2>GEAR</h2>
       <p>Special Gear</p>
       <div class='status status-problem'>
@@ -341,23 +364,28 @@ p {
     </div>
     <div id='card2' class='card floating-card'>
       <img src='./images/gear2.png' class='gear-img' />
-      <h2>GEAR</h2>
-      <p>Special Gear</p>
+      <h2>ITEM</h2>
+      <p>Another item</p>
       <div class='status'>
         6
       </div>
     </div>
     <div id='card3' class='card floating-card'>
-      <img src='./images/gear3.png' class='gear-img' />
-      <h2>GEAR</h2>
-      <p>Special Gear</p>
+      <img src='./images/gear1.png' class='gear-img' />
+      <h2>CRANKSHAFT</h2>
+      <p>Torque</p>
       <div class='status'>
         10
       </div>
     </div>
-    <img src='./images/transfer.png' />
+    <div class='clearfix'>
+      <img src='./images/transfer.png' />
+    </div>
 </div>
-
+<div class='menu'>
+  <img src='./images/hamburger.png' />
+  <h3>GLOBAL INVENTORY NETWORK</h3>
+</div>
 <script src='./app.js'></script>
 </body>
 </html>
