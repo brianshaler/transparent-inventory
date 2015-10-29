@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Transparent Inventory</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Abel|Montserrat:400,700|Ubuntu+Mono:400,400italic,700,700italic">
+
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Ubuntu Mono';
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+}
+
+.gear-img {
+  max-width: 200px;
+  margin-top: 2em;
+}
+.transferbtn {
+  display: block;
+}
+.is-confirmed .transferbtn {
+  display: none;
+}
+.confirmed {
+  display: none;
+}
+.is-confirmed .confirmed {
+  display: block;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 0.3em 0 0 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #ddd;
+  margin-top: 0.5em;
+  margin-bottom: 0.75em;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 25px;
+  width: 25px;
+  background: transparent url('./images/oval.png') center center no-repeat;
+  cursor: pointer;
+  margin-top: -11px;
+  -webkit-appearance: none;
+}
+input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 25px;
+  width: 25px;
+  background: transparent url('./images/oval.png') center center no-repeat;
+  cursor: pointer;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #ddd;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #ddd;
+}
+
+h1 {
+  font-family: 'Abel';
+  font-weight: 400;
+  color: #0A495F
+}
+h2 {
+  font-family: 'Montserrat';
+  font-weight: 700;
+  color: #0A495F;
+}
+h3 {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  color: #C81721;
+}
+p {
+  font-family: 'Ubuntu Mono';
+  font-weight: 400;
+  color: #0A495F;
+}
+
+.page1, .page2 {
+  display: none;
+  height: 100%;
+}
+
+.fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(244, 244, 244, 0.9);
+  z-index: 1000;
+  text-align: center;
+}
+
+.overlay {
+  z-index: 999;
+  position: absolute;
+  width: 360px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.card {
+  background-color: #fff;
+  border-radius: 1.5em;
+  padding: 1em 2em;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+.card .img {
+  display: inline-block;
+  width: 200px;
+  height: 300px;
+  border: solid 1px #000;
+}
+.card h2 {
+  margin-bottom: 0;
+}
+.card p {
+  margin-top: 0;
+}
+.card .status {
+  font-family: 'Montserrat';
+  display: inline-block;
+  border: solid 3px #000;
+  font-size: 2em;
+  color: #000;
+  padding: 0.2em 0.2em;
+  min-width: 1.5em;
+}
+.card .status-problem {
+  border: solid 3px #f00;
+  color: #f00;
+}
+
+.floating-card {
+  display: inline-block;
+  margin: 6em 1em 1em 1em;
+}
+
+.overlay .options {
+  margin: 1em 2em;
+}
+.overlay .options, .overlay .options p {
+  color: #fff;
+  font-weight: bold;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 2em 2em;
+  max-width: 600px;
+}
+
+.header {
+  border: solid 3px #000;
+}
+.header h1 {
+  margin: 0;
+  padding: 0;
+}
+.header .left, .header .right {
+  padding: 0 1em;
+}
+.header .left {
+  float: left;
+  border-right: solid 3px #000;
+  min-height: 7em;
+}
+.header .right {
+  float: left;
+}
+.header h2 {
+  color: #0A495F;
+  margin-top: 0.4em;
+  margin-bottom: 0;
+}
+.header p {
+  margin: 0 0 0.4em;
+}
+.header .left h2 {
+  font-weight: normal;
+}
+.header .right h2 {
+  font-weight: bold;
+}
+
+.grid {
+  clear: both;
+}
+
+.row {
+  clear: both;
+}
+
+.block {
+  border: solid 3px #000;
+  margin: 0 1em 1.5em 0;
+  float: left;
+  padding: 0.2em 0.6em;
+}
+
+.block h2 {
+  color: #000;
+  margin: 0;
+}
+
+.black {
+  background-color: #000;
+  color: #fff;
+}
+
+.black a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.black a span {
+  display: block;
+  margin: 0.75em 0.5em;
+}
+
+.row.big .block,
+.row.big .block a {
+  height: 3.9em;
+}
+.big .black a span {
+  display: block;
+  margin: 0.75em 0.5em;
+}
+.row.medium .block,
+.row.medium .block a {
+  height: 3.2em;
+}
+.medium .black a span {
+  margin: 0.5em 0.5em;
+}
+
+.settings h1 {
+  font-family: 'Montserrat';
+  text-align: center;
+}
+
+.clearfix {
+  clear: both;
+  height: 0px;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.next-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.next-btn a {
+  font-family: 'Montserrat';
+  display: block;
+  width: 100%;
+  background-color: #c81721;
+  padding: 1.2em 0 1.3em 0;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+
+<div id='map' style='height: 100%;'></div>
+<div id='overlay' class='overlay' style='display: none;'>
+  <div id='settings' class='settings container'>
+    <div class='content'>
+      <h1>SUPPLIERS</h1>
+      <div class='card'>
+        <img src='./images/gear1.png' class='gear-img' />
+        <h2>GEAR</h2>
+        <p>Special Gear</p>
+        <div class='status status-problem'>
+          -2
+        </div>
+      </div>
+      <div class='options'>
+        <p>
+          <input type='radio' />
+          BEST FIT
+        </p>
+        <p>
+          <input type='radio' />
+          SHOW IMPACT
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div id='fullscreen' class='fullscreen' style='display: none'>
+    <div id='card1' class='card floating-card'>
+      <img src='./images/disrupt.png' style='position:absolute; z-index: 100; margin: -4em 0 0 -2.2em;' />
+      <img src='./images/gear1.png' class='gear-img' />
+      <h2>GEAR</h2>
+      <p>Special Gear</p>
+      <div class='status status-problem'>
+        -2
+      </div>
+    </div>
+    <div id='card2' class='card floating-card'>
+      <img src='./images/gear2.png' class='gear-img' />
+      <h2>GEAR</h2>
+      <p>Special Gear</p>
+      <div class='status'>
+        6
+      </div>
+    </div>
+    <div id='card3' class='card floating-card'>
+      <img src='./images/gear3.png' class='gear-img' />
+      <h2>GEAR</h2>
+      <p>Special Gear</p>
+      <div class='status'>
+        10
+      </div>
+    </div>
+    <img src='./images/transfer.png' />
+</div>
+
+<script src='./app.js'></script>
+</body>
+</html>
